@@ -1,4 +1,4 @@
-# ML Projects (PyTorch)
+# ML Projects 
 
 [![CI](https://github.com/JeffreyZhu2323/ml-projects/actions/workflows/ci.yml/badge.svg)](https://github.com/JeffreyZhu2323/ml-projects/actions/workflows/ci.yml)
 
