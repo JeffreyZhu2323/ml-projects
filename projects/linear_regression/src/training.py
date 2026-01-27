@@ -54,7 +54,7 @@ for epoch in range(EPOCHS):
         print(f"Epoch {epoch}, Train MSE: {train_mse.item()}, Val MSE: {val_mse}")
 
 #save loss graphs and model
-loss_graph.to_csv(BASE_DIR / "loss_graph.csv")
+loss_graph.to_csv(BASE_DIR / "results" / "loss_graph.csv")
 
 torch.save(
     {

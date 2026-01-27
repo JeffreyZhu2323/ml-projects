@@ -73,7 +73,7 @@ print("Best Lambda Value:",best_lambda)
 
 #save results of all lambda values
 results_json = {str(k): float(v) for k, v in best.items()}
-with open(BASE_DIR / "ridge_sweep_results.json", "w") as f:
+with open(BASE_DIR / "results" / "ridge_sweep_results.json", "w") as f:
     json.dump(results_json, f, indent=2)
 
 print("Saved to ridge_sweep_results.json")

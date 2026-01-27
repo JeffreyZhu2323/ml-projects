@@ -26,5 +26,5 @@ L2_LAMBDA = 0.01
 lambdas = [0, 1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1, 10]
   
 
-BASE_DIR = Path(__file__).resolve().parent
-SAVE_PATH = BASE_DIR / "model_lr.pt"
+BASE_DIR = Path(__file__).resolve().parent.parent
+SAVE_PATH = BASE_DIR / "model" / "model_lr"
