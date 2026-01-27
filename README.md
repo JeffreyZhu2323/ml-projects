@@ -1,3 +1,5 @@
+[![CI](https://github.com/JeffreyZhu2323/ml-projects/actions/workflows/ci.yml/badge.svg)](https://github.com/JeffreyZhu2323/ml-projects/actions/workflows/ci.yml)
+
 ## Setup
 
 ### Create a virtual environment
