@@ -6,7 +6,7 @@ Curated ML mini-projects built in PyTorch, focused on clean training/evaluation 
 **Python:** 3.10.0
 
 ## Projects
-- **[Linear Regression](./projects/linear_regression/)** — regression baseline + evaluation metrics + ridge sweep + plots
+- **[Linear Regression](./linear_regression/)** — regression baseline + evaluation metrics + ridge sweep + plots
 
 ## Setup
 
