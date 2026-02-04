@@ -3,12 +3,20 @@
 Linear regression baseline on the California Housing dataset implemented in **PyTorch**, focusing on clean, reproducible ML engineering practices (train/val/test split, train-only standardization, metric tracking, checkpointing, and ridge regularization sweep).
 
 ## What this project demonstrates
-- **From-scratch linear regression in PyTorch** (explicit `w, b` parameters)
+- **From-scratch linear regression training loop in PyTorch** (explicit w, b, forward pass, loss.backward(), manual GD updates)
 - **Train/Val/Test workflow** with reproducible splits (fixed split & pytorch training seeds)
 - Metrics: **MSE, RMSE, R²**
 - **Best validation checkpointing**
 - **Ridge (L2) regularization sweep** to select λ by validation performance
 - Simple plotting of learning curves
+
+## Under the hood (PyTorch from scratch)
+This project intentionally avoids high-level training helpers to show fundamentals. I implemented:
+- **Explicit parameters**: `w` and `b` as tensors (no `nn.Linear`)
+- **Forward pass**: predictions computed as `y_hat = X @ w + b`
+- **Loss**: mean squared error (MSE)
+- **Backward pass**: gradients computed via `loss.backward()` and **manual gradient descent updates** in a `torch.no_grad()` block
+- **Training loop mechanics**: gradient zeroing, metric logging (MSE/RMSE/R²), and saving the **best validation checkpoint**
 
 ## Quickstart
 From the repo root, you can run everything with two scripts (no need to go into `src/`):
