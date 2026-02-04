@@ -31,9 +31,10 @@ Linear regression baseline on the California Housing dataset implemented in **Py
   Reads `loss_graph.csv` and plots curves.
 
 ## Results 
-- Validation MSE around **~0.645**
-- Validation R² around **~0.54**
-- Ridge sweep may give a small improvement (e.g., best near **λ = 0.01**)
+- Test MSE around **~0.63**
+- Test RMSE aroud **~0.79**
+- Test R² around **~0.52**
+- Ridge sweep found best near **λ = 0.01**
 
 ## How to run
 
@@ -41,3 +42,4 @@ Linear regression baseline on the California Housing dataset implemented in **Py
 From repo root:
 ```bash
 pip install -r requirements.txt
+
