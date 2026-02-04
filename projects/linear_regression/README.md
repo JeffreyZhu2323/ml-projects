@@ -17,6 +17,7 @@ From the repo root, you can run everything with two scripts (no need to go into 
 pip install -r requirements.txt
 python train.py
 python eval.py
+```
 
 ## Dataset
 - **Source:** `sklearn.datasets.fetch_california_housing`
@@ -48,12 +49,17 @@ python eval.py
 If you prefer an isolated environment:
 
 **Windows (PowerShell)**
-```bash
+
+```powershell
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install -r requirements.txt
+```
 
 **macOS/Linux**
+
+```bash
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install -r requirements.txt
+```
