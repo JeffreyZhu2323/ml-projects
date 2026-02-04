@@ -6,7 +6,7 @@ Curated ML mini-projects built in PyTorch, focused on clean training/evaluation 
 **Python:** 3.10.0
 
 ## Projects
-- **[Linear Regression](./california_housing_linear_regression/)** — regression baseline + evaluation metrics + ridge sweep + plots
+- **[California Housing — Linear Regression (PyTorch)](./california_housing_linear_regression/)** — from-scratch training loop (explicit w,b, manual GD) + MSE/RMSE/R² + ridge sweep + plots
 
 ## Setup
 
