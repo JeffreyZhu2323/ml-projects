@@ -10,6 +10,14 @@ Linear regression baseline on the California Housing dataset implemented in **Py
 - **Ridge (L2) regularization sweep** to select λ by validation performance
 - Simple plotting of learning curves
 
+## Quickstart
+From the repo root, you can run everything with two scripts (no need to go into `src/`):
+
+```bash
+pip install -r requirements.txt
+python train.py
+python eval.py
+
 ## Dataset
 - **Source:** `sklearn.datasets.fetch_california_housing`
 - **Target:** `MedHouseVal`
@@ -36,10 +44,16 @@ Linear regression baseline on the California Housing dataset implemented in **Py
 - Test R² around **~0.52**
 - Ridge sweep found best near **λ = 0.01**
 
-## How to run
+## Setup (optional but recommended): virtual environment
+If you prefer an isolated environment:
 
-### 1) Install dependencies
-From repo root:
+**Windows (PowerShell)**
 ```bash
-pip install -r requirements.txt
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
 
+**macOS/Linux**
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
