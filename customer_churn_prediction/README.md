@@ -1,36 +1,25 @@
-# Customer Churn Prediction + Retention Targeting (Telco)
+<img width="339" height="97" alt="image" src="https://github.com/user-attachments/assets/279cb6ed-d1ae-435e-90ec-010ea970a1cb" /># Customer Churn Prediction + Retention Targeting (Telco)
 
 Predict customer churn and turn model scores into actionable retention targeting strategies. This project builds an end-to-end churn pipeline (cleaning → encoding → model training → evaluation), then translates model outputs into **operating points** (e.g., target top 10% highest-risk customers) and **business recommendations** based on the strongest churn drivers.
 
 ## TL;DR Results (Test Set)
 
-**Model:** Logistic Regression (`class_weight="balanced"`)  
-**Test ROC-AUC:** 0.850  
-**Test PR-AUC:** 0.646 (churn is ~26–28%, so this is far above baseline)
+**Model:** Logistic Regression (`class_weight="balanced"`, `max_iter=2000`)  
+**Test ROC-AUC:** 0.8498  
+**Test PR-AUC:** 0.6461 (test churn rate is ~26.5%, so this is far above baseline)
 
-### Practical operating points (examples)
+## Practical Operating Points (Threshold Policies)
 
-I evaluate multiple decision thresholds because deployment requires a clear “who do we contact?” rule.
+Your `results/baseline_metrics` file stores multiple threshold policies so the model can be used in real operations (“who do we contact?”).
 
-- **Threshold = 0.50**
-  - Targeted: 40.7%
-  - Precision: 0.513, Recall: 0.786, F1: 0.621
-  - Confusion matrix: `[[756, 279], [80, 294]]`
+| Policy | Threshold | % Targeted | Precision | Recall | F1 | Confusion Matrix (TN, FP / FN, TP) |
+|---|---:|---:|---:|---:|---:|---|
+| Default | 0.50 | 40.7% | 0.513 | 0.786 | 0.621 | `[[756, 279], [80, 294]]` |
+| Capacity-based (Top 10%) | 0.8474 | 10.0% | 0.752 | 0.283 | 0.412 | `[[1000, 35], [268, 106]]` |
+| **Best F1 (picked on VAL, evaluated on TEST)** | **0.7048** | **26.3%** | **0.620** | **0.615** | **0.617** | `[[894, 141], [144, 230]]` |
+| Business EV example (illustrative) | 0.02 | 91.1% | 0.292 | 1.000 | 0.451 | `[[126, 909], [0, 374]]` |
 
-- **Target top 10% highest-risk**
-  - Targeted: 10.0%
-  - Precision: 0.752, Recall: 0.283, F1: 0.412
-  - Confusion matrix: `[[1000, 35], [268, 106]]`
-
-- **Business EV example (illustrative assumptions)**
-  - Threshold = 0.02 (contact_cost/value_saved = 1/50)
-  - Targeted: 91.1%
-  - Precision: 0.292, Recall: 1.000, F1: 0.451
-  - Confusion matrix: `[[126, 909], [0, 374]]`
-  - Note: this is included to demonstrate expected-value thresholding; real cost/CLV/uplift assumptions vary by company.
-
-- **Best-F1 threshold (chosen on validation set)**
-  - Stored in `reports/metrics_*.json` and evaluated on test using the same threshold.
+> Note: the “Business EV example” uses illustrative assumptions (contact_cost/value_saved). Real retention economics (cost, CLV, uplift) vary by company—this row is included to demonstrate expected-value thresholding.
 
 ---
 
@@ -39,7 +28,7 @@ I evaluate multiple decision thresholds because deployment requires a clear “w
 - **Dataset:** Telco customer churn  
 - **Target:** `Churn Value` (0/1)
 
-I use **23 engineered features** across customer attributes, subscription/services, billing, and contract/payment.
+This pipeline produces **23 engineered features** across customer attributes, subscription/services, billing, and contract/payment.
 
 ---
 
@@ -60,14 +49,11 @@ I use **23 engineered features** across customer attributes, subscription/servic
 - **Logistic Regression**
   - `class_weight="balanced"`
   - `max_iter=2000`
-
-Logistic Regression is a strong churn baseline: fast, stable, and directly interpretable via coefficients.
-
 ---
 
 ## Interpretation: Key Churn Drivers (Logistic Regression Coefficients)
 
-Positive coefficients increase churn risk; negative coefficients decrease churn risk.
+Positive coefficients increase churn risk; negative coefficients decrease churn risk. Full coefficient list is saved at `results/variable_affect_churn.csv`.
 
 ### Strongest churn-increasing signals
 
@@ -101,54 +87,50 @@ Positive coefficients increase churn risk; negative coefficients decrease churn 
 ## Retention Recommendations (Actionable)
 
 ### 1) Prioritize month-to-month / short-tenure customers for proactive retention
-
 **Why:** `Tenure Months` and long contracts are the strongest churn reducers.  
-**Action:** offer contract upgrades (12–24 months) with limited-time incentives + an onboarding retention flow for the first 1–3 months.
-
+**Action:** offer contract upgrades (12–24 months) with limited-time incentives + an onboarding retention flow for the first 1–3 months.  
 **Targeting:** high churn score + short tenure (or top-k highest risk).
 
 ### 2) Fiber optic customers: reduce service friction + bundle support
-
-**Why:** Fiber optic is the strongest positive churn signal.  
-**Action:** provide a free Tech Support trial and targeted setup/troubleshooting content early in the customer lifecycle.
-
+**Why:** fiber optic is the strongest positive churn signal.  
+**Action:** provide a free Tech Support trial and targeted setup/troubleshooting content early in the customer lifecycle.  
 **Targeting:** `Internet Service_Fiber optic = 1` + high churn score.
 
 ### 3) Encourage switching away from electronic check (promote autopay)
-
 **Why:** electronic check payment is a strong churn-risk indicator.  
-**Action:** incentivize autopay (credit card/bank transfer) with small discounts; reduce payment friction with reminders and clearer billing UX.
-
+**Action:** incentivize autopay (credit card/bank transfer) with small discounts; reduce payment friction with reminders and clearer billing UX.  
 **Targeting:** `Payment Method_Electronic check = 1` + medium/high churn score.
 
 ### 4) Bundle security/support add-ons for at-risk customers
-
 **Why:** `Tech Support` and `Online Security` are associated with lower churn.  
-**Action:** offer a limited-time bundle (Tech Support + Online Security) with guided setup to increase adoption.
-
+**Action:** offer a limited-time bundle (Tech Support + Online Security) with guided setup to increase adoption.  
 **Targeting:** high churn score AND currently lacking these add-ons.
 
 ### 5) Capacity-based targeting policy (simple + realistic)
-
 If a retention team can contact a limited number of customers, targeting the **top 10% highest-risk** yields:
 - Precision ≈ 0.75
 - Recall ≈ 0.28
-
-This is often more operationally realistic than a fixed threshold like 0.50.
-
 ---
 
 ## Project Structure
 
 ```text
 customer_churn_prediction/
-  src/
-    data_loading.py
-    training.py
+  data/                      # place dataset here (ignored by git)
   reports/
-    metrics_*.json
     figures/
-      roc_curve_test.png
       pr_curve_test.png
-  models/
-    (optional) saved_model.joblib
+      roc_curve_test.png
+  results/
+    baseline_metrics         # saved metrics (ROC/PR + threshold policies incl. best-F1)
+    variable_affect_churn.csv
+  src/
+    __init__.py
+    config.py
+    data_loading.py          # preprocessing + train/val/test split
+    training.py              # train + evaluate + write results/ + save plots
+  README.md
+  train.py                   # (optional) convenience entry point
+  eval.py                    # (optional) convenience entry point
+  .gitignore
+
