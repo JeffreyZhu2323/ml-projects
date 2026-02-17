@@ -28,7 +28,7 @@ Your `results/baseline_metrics` file stores multiple threshold policies so the m
 - **Dataset:** Telco customer churn  
 - **Target:** `Churn Value` (0/1)
 
-This pipeline produces **23 engineered features** across customer attributes, subscription/services, billing, and contract/payment.
+This pipeline produces 23 encoded model features after preprocessing (binary mapping + one-hot encoding + scaling).
 
 ---
 
