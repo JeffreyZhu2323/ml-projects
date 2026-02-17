@@ -1,4 +1,4 @@
-<img width="339" height="97" alt="image" src="https://github.com/user-attachments/assets/279cb6ed-d1ae-435e-90ec-010ea970a1cb" /># Customer Churn Prediction + Retention Targeting (Telco)
+# Customer Churn Prediction + Retention Targeting (Telco)
 
 Predict customer churn and turn model scores into actionable retention targeting strategies. This project builds an end-to-end churn pipeline (cleaning → encoding → model training → evaluation), then translates model outputs into **operating points** (e.g., target top 10% highest-risk customers) and **business recommendations** based on the strongest churn drivers.
 
