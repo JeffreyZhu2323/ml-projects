@@ -2,7 +2,7 @@
 
 Predict customer churn and turn model scores into actionable retention targeting strategies. This project builds an end-to-end churn pipeline (cleaning → encoding → model training → evaluation), then translates model outputs into **operating points** (e.g., target top 10% highest-risk customers) and **business recommendations** based on the strongest churn drivers.
 
-## TL;DR Results (Test Set)
+## TLDR Results (Test Set)
 
 **Model:** Logistic Regression (`class_weight="balanced"`, `max_iter=2000`)  
 **Test ROC-AUC:** 0.8498  
