@@ -1,0 +1,80 @@
+{
+  "model": "logisticregression_baseline",
+  "split": "test",
+  "roc_auc": 0.8498488723552663,
+  "pr_auc": 0.6461347761178393,
+  "threshold_results": {
+    "thr_0_50": {
+      "threshold": 0.5,
+      "target_rate": 0.40667139815471964,
+      "precision": 0.5130890052356021,
+      "recall": 0.786096256684492,
+      "f1": 0.6209081309398099,
+      "confusion_matrix": [
+        [
+          756,
+          279
+        ],
+        [
+          80,
+          294
+        ]
+      ]
+    },
+    "top_10_percent": {
+      "threshold": 0.8474457242983651,
+      "target_rate": 0.10007097232079488,
+      "precision": 0.75177304964539,
+      "recall": 0.28342245989304815,
+      "f1": 0.4116504854368932,
+      "confusion_matrix": [
+        [
+          1000,
+          35
+        ],
+        [
+          268,
+          106
+        ]
+      ]
+    },
+    "best_f1_score_threshold": {
+      "threshold": 0.7047703222200211,
+      "target_rate": 0.26330731014904185,
+      "precision": 0.6199460916442049,
+      "recall": 0.6149732620320856,
+      "f1": 0.6174496644295302,
+      "confusion_matrix": [
+        [
+          894,
+          141
+        ],
+        [
+          144,
+          230
+        ]
+      ]
+    },
+    "business_ev_example": {
+      "threshold": 0.02,
+      "target_rate": 0.9105748757984387,
+      "precision": 0.2915042868277475,
+      "recall": 1.0,
+      "f1": 0.45141822570911283,
+      "confusion_matrix": [
+        [
+          126,
+          909
+        ],
+        [
+          0,
+          374
+        ]
+      ],
+      "assumptions": {
+        "contact_cost": 1.0,
+        "value_saved": 50.0
+      }
+    }
+  }
+}
