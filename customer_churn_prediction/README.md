@@ -2,11 +2,16 @@
 
 Predict customer churn and turn model scores into actionable retention targeting strategies. This project builds an end-to-end churn pipeline (cleaning → encoding → model training → evaluation), then translates model outputs into **operating points** (e.g., target top 10% highest-risk customers) and **business recommendations** based on the strongest churn drivers.
 
-## TLDR Results (Test Set)
+## TL;DR Results (Test Set)
 
 **Model:** Logistic Regression (`class_weight="balanced"`, `max_iter=2000`)  
 **Test ROC-AUC:** 0.8498  
 **Test PR-AUC:** 0.6461 (test churn rate is ~26.5%, so this is far above baseline)
+
+## Plots
+
+![Precision–Recall Curve (Test)](reports/figures/pr_curve_test.png)  
+![ROC Curve (Test)](reports/figures/roc_curve_test.png)
 
 ## Practical Operating Points (Threshold Policies)
 
@@ -19,16 +24,23 @@ Your `results/baseline_metrics` file stores multiple threshold policies so the m
 | **Best F1 (picked on VAL, evaluated on TEST)** | **0.7048** | **26.3%** | **0.620** | **0.615** | **0.617** | `[[894, 141], [144, 230]]` |
 | Business EV example (illustrative) | 0.02 | 91.1% | 0.292 | 1.000 | 0.451 | `[[126, 909], [0, 374]]` |
 
-> Note: the “Business EV example” uses illustrative assumptions (contact_cost/value_saved). Real retention economics (cost, CLV, uplift) vary by company—this row is included to demonstrate expected-value thresholding.
+> Note: the “Business EV example” uses illustrative assumptions (`contact_cost` / `value_saved`). Real retention economics (cost, CLV, uplift) vary by company—this row is included to demonstrate expected-value thresholding.
 
 ---
 
 ## Dataset & Target
 
-- **Dataset:** Telco customer churn  
+- **Dataset:** Telco customer churn
 - **Target:** `Churn Value` (0/1)
 
-This pipeline produces 23 encoded model features after preprocessing (binary mapping + one-hot encoding + scaling).
+This pipeline produces **23 encoded model features** after preprocessing (binary mapping + one-hot encoding + scaling).
+
+## Data
+
+This repo does **not** include the raw dataset file. Download the Telco churn dataset and place it in:
+
+- `customer_churn_prediction/data/Telco_customer_churn.csv` **or**
+- `customer_churn_prediction/data/Telco_customer_churn.xlsx`
 
 ---
 
@@ -39,6 +51,7 @@ This pipeline produces 23 encoded model features after preprocessing (binary map
 - Convert numeric columns (`Monthly Charges`, `Total Charges`) to numeric
 - Handle `Total Charges` missing values when `Tenure Months == 0` by setting to 0 (new customers)
 - Encode binary features (Yes/No, Male/Female) to 0/1
+- Map `"No internet service"` / `"No phone service"` to 0 for relevant binary service columns
 - One-hot encode multiclass features with `drop_first=True`:
   - `Internet Service`, `Contract`, `Payment Method`
 - Standardize continuous features using **train mean/std only** (prevents leakage)
@@ -49,6 +62,9 @@ This pipeline produces 23 encoded model features after preprocessing (binary map
 - **Logistic Regression**
   - `class_weight="balanced"`
   - `max_iter=2000`
+
+Logistic Regression is a strong churn baseline: fast, stable, and directly interpretable via coefficients.
+
 ---
 
 ## Interpretation: Key Churn Drivers (Logistic Regression Coefficients)
@@ -110,6 +126,9 @@ Positive coefficients increase churn risk; negative coefficients decrease churn 
 If a retention team can contact a limited number of customers, targeting the **top 10% highest-risk** yields:
 - Precision ≈ 0.75
 - Recall ≈ 0.28
+
+This is often more operationally realistic than a fixed threshold like 0.50.
+
 ---
 
 ## Project Structure
@@ -133,4 +152,3 @@ customer_churn_prediction/
   train.py                   # (optional) convenience entry point
   eval.py                    # (optional) convenience entry point
   .gitignore
-
