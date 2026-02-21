@@ -23,8 +23,8 @@ From the repo root, you can run everything with two scripts (no need to go into 
 
 ```bash
 pip install -r requirements.txt
-python train.py
-python eval.py
+python src.train.py
+python src.eval.py
 ```
 
 ## Dataset
