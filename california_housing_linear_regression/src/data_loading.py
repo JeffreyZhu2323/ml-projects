@@ -1,7 +1,7 @@
 from sklearn.datasets import fetch_california_housing
 from sklearn.model_selection import train_test_split
 import torch
-from src.config import *
+from config import *
 
 def load_data():
     housing = fetch_california_housing(as_frame=True)

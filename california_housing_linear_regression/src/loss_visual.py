@@ -1,6 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 from config import * 
+
 loss_graph = pd.read_csv(BASE_DIR / "results" / "loss_graph.csv")
 # --- RMSE ---
 plt.figure()
