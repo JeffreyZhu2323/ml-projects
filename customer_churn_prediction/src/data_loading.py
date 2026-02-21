@@ -1,7 +1,7 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
 import numpy as np
-from config import *
+from src.config import *
 
 def load_data():
     csv_path = BASE_DIR / "data" / "Telco_customer_churn.csv"
