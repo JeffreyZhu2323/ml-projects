@@ -145,10 +145,10 @@ customer_churn_prediction/
     variable_affect_churn.csv
   src/
     __init__.py
+    baseline_training_eval.py # train + evaluate + write and save results for baseline logistic regression model
     config.py
     data_loading.py          # preprocessing + train/val/test split
-    training.py              # train + evaluate + write results/ + save plots
+    xgboost_training_eval.py  #train + evaluate + write and save results for XGBoost model
+    
   README.md
-  train.py                   # (optional) convenience entry point
-  eval.py                    # (optional) convenience entry point
   .gitignore
