@@ -1,31 +1,14 @@
 # Customer Churn Prediction + Retention Targeting (Telco)
 
-End-to-end churn modeling project using **scikit-learn Logistic Regression** and **XGBoost** with:
-- train / validation / test evaluation
-- model comparison (ROC-AUC + PR-AUC)
-- threshold policy analysis for different retention team capacities
-- business-oriented interpretation (including an interpretable logistic regression benchmark)
+Predict customer churn and turn model scores into actionable retention targeting strategies.
 
----
-
-## Project Goal
-
-Predict which customers are likely to churn so a retention team can prioritize outreach more effectively.
-
-This project is framed as a **ranking + targeting** problem, not just a binary classification problem:
-- The model produces churn probabilities
-- Different thresholds support different outreach capacities (e.g., top 10% highest-risk customers vs. a more balanced F1 threshold)
+This project builds an end-to-end churn pipeline (**cleaning → encoding → train/val/test split → model training → evaluation**) and compares **Logistic Regression** vs **XGBoost** using **ROC-AUC** and **PR-AUC**, then evaluates practical threshold policies for retention outreach.
 
 ---
 
 ## TL;DR Results (Test Set)
 
-I trained and compared:
-- **Logistic Regression (baseline)**
-- **Logistic Regression (tuned)**
-- **XGBoost (tuned)**
-
-### Model Comparison (Test Set)
+### Model Comparison
 
 | Model | ROC-AUC | PR-AUC | Summary |
 |---|---:|---:|---|
@@ -34,24 +17,34 @@ I trained and compared:
 | **XGBoost (tuned)** | **0.8562** | **0.6744** | **Best overall performance** |
 
 ### Final Model Selection
-**Selected final model: `XGBoost (tuned)`**
+**Selected model: XGBoost (tuned)**
 
-Why:
 - Best **PR-AUC** (important for imbalanced churn prediction)
 - Best **ROC-AUC**
-- Better ranking quality for prioritizing limited retention outreach
+- Better ranking quality for retention targeting
 
 ### Improvement vs Logistic Baseline
 - **ROC-AUC:** +0.0064
 - **PR-AUC:** +0.0282
 
-> PR-AUC is emphasized because churn is an imbalanced classification problem, and PR-AUC better reflects how well the model identifies actual churners compared with accuracy alone.
+> PR-AUC is emphasized because churn is an imbalanced classification problem, so it is more informative than accuracy alone for identifying actual churners.
 
 ---
 
+<h2>Test Curves (Final Model)</h2>
+
+<p align="center">
+  <a href="reports/pr_curve.png">
+    <img src="reports/pr_curve.png" alt="Precision-Recall Curve" width="48%"/>
+  </a>
+  <a href="reports/roc_curve.png">
+    <img src="reports/roc_curve.png" alt="ROC Curve" width="48%"/>
+  </a>
+</p>>
+
 ## Practical Operating Points (XGBoost Tuned, Test Set)
 
-The final model outputs probabilities. Different thresholds correspond to different outreach strategies.
+The final model outputs churn probabilities. Different thresholds support different retention team capacities and goals.
 
 | Policy | Threshold | Target Rate | Precision | Recall | F1 |
 |---|---:|---:|---:|---:|---:|
@@ -60,103 +53,76 @@ The final model outputs probabilities. Different thresholds correspond to differ
 | Best F1 threshold (selected on validation set) | 0.3910 | 30.94% | 0.5894 | **0.6872** | **0.6346** |
 
 ### Confusion Matrices (XGBoost Tuned, Test Set)
+- **Threshold = 0.50** → `[[935, 100], [170, 204]]`
+- **Top 10% threshold** → `[[1003, 32], [265, 109]]`
+- **Best F1 threshold** → `[[856, 179], [117, 257]]`
 
-- **Threshold = 0.50**
-  - `[[935, 100], [170, 204]]`
-
-- **Top 10% threshold**
-  - `[[1003, 32], [265, 109]]`
-
-- **Best F1 threshold**
-  - `[[856, 179], [117, 257]]`
-
-### How to use these thresholds (business interpretation)
-- **Top 10% threshold**: best when retention capacity is limited and you only want to contact a small, high-risk group (higher precision).
-- **Best F1 threshold**: better if the team can contact more customers and wants a more balanced precision/recall tradeoff.
-- **0.50 threshold**: useful default baseline, but not always the best business operating point.
+### Business Interpretation
+- **Top 10% threshold** is useful when outreach capacity is limited (higher precision among contacted customers).
+- **Best F1 threshold** is better when the team can contact more customers and wants a more balanced precision/recall tradeoff.
+- **0.50 threshold** is a useful default benchmark, but not always the best operational policy.
 
 ---
 
-## Modeling Approach
+## Dataset & Target
 
-### 1) Logistic Regression (Baseline)
-Used as an interpretable benchmark:
-- clean baseline for tabular binary classification
-- easy to inspect coefficient directions and magnitudes
-- strong first benchmark for churn
+- **Dataset:** Telco Customer Churn
+- **Target:** `Churn Value` (0/1)
 
-### 2) Logistic Regression (Tuned)
-Hyperparameter tuning via cross-validation (e.g., regularization strength / solver combinations).  
-Result: similar performance to baseline, slightly lower ranking metrics on the test set.
-
-### 3) XGBoost (Tuned) — Final Model
-Used gradient-boosted trees to capture:
-- nonlinear effects
-- feature interactions
-- more flexible decision boundaries than logistic regression
-
-XGBoost achieved the best performance on both:
-- **ROC-AUC**
-- **PR-AUC**
-
----
-
-## Evaluation Philosophy
-
-This project evaluates model quality in two layers:
-
-### A) Ranking Quality (model selection)
-Primary metrics:
-- **PR-AUC (Average Precision)**
-- **ROC-AUC**
-
-### B) Decision Policy Quality (deployment / operations)
-Threshold-based metrics:
-- Precision
-- Recall
-- F1
-- Target rate
-- Confusion matrix
-
-This separation matters because:
-- **model tuning** improves the probability ranking
-- **threshold tuning** defines the actual business action policy
-
----
-
-## Interpretability Benchmark (Logistic Regression)
-
-Even though **XGBoost** was selected as the final predictive model, logistic regression remains valuable as an interpretable benchmark for directional insights into churn drivers.
-
-Examples of how this is useful:
-- sanity-checking whether learned relationships match intuition
-- communicating model behavior to non-technical stakeholders
-- comparing transparent linear effects vs. nonlinear boosted-tree performance
-
-If included in this repo, see:
-- `results/variable_affect_churn.csv` (logistic coefficient summary / feature effects)
+This pipeline produces **23 encoded model features** after preprocessing.
 
 ---
 
 ## Data & Preprocessing
 
-This project uses the **Telco Customer Churn** dataset and applies a consistent preprocessing pipeline for all models.
+This project uses a consistent preprocessing pipeline for all models:
 
 - **Target:** `Churn Value` (binary)
-- **Features:** customer demographics, services, contract/billing info, and charges (including `Total Charges`)
-- **Cleaning:** converts `Total Charges` / `Monthly Charges` to numeric; fills missing `Total Charges` with `0` for customers with `Tenure Months == 0`
-- **Encoding:** maps binary fields to `0/1` and one-hot encodes multi-class categorical columns (`Internet Service`, `Contract`, `Payment Method`)
-- **Splitting:** stratified train / validation / test split (same random seed for reproducibility)
-- **Scaling:** standardizes continuous features (`Tenure Months`, `Monthly Charges`, `Total Charges`) using **training-set statistics only** (then applies to val/test to avoid leakage)
+- **Features:** demographics, services, contract/billing info, and charges (including `Total Charges`)
+- **Cleaning:** converts `Monthly Charges` / `Total Charges` to numeric; fills missing `Total Charges` with `0` when `Tenure Months == 0`
+- **Encoding:** maps binary fields to `0/1` and one-hot encodes multi-class columns (`Internet Service`, `Contract`, `Payment Method`)
+- **Splitting:** stratified train / validation / test split (reproducible random seed)
+- **Scaling:** standardizes continuous features (`Tenure Months`, `Monthly Charges`, `Total Charges`) using **training-set statistics only** (applied to val/test to avoid leakage)
 
 The data loader returns:
 `X_train, y_train, X_val, y_val, X_test, y_test`
 
 ---
 
+## Models
+
+### Logistic Regression (Baseline + Tuned)
+Used as an interpretable benchmark:
+- fast and stable for tabular binary classification
+- useful for coefficient-based churn driver analysis
+
+### XGBoost (Tuned) — Final Model
+Used to capture:
+- nonlinear effects
+- feature interactions
+- more flexible decision boundaries than logistic regression
+
+XGBoost achieved the best test performance on both **ROC-AUC** and **PR-AUC**.
+
+---
+
+## Interpretability Benchmark (Logistic Regression)
+
+Even though **XGBoost** was selected as the final predictive model, logistic regression remains useful as an interpretable benchmark for directional insights.
+
+Full coefficient summary (if generated):
+- `results/variable_affect_churn.csv`
+
+Key takeaway from the logistic benchmark:
+- lower tenure and shorter contracts are strongly associated with higher churn risk
+- some service/payment patterns (e.g., fiber optic, electronic check) are associated with higher churn risk
+- support/security add-ons are associated with lower churn
+
+---
+
 ## Saved Outputs
 
-This project stores evaluation outputs in the `results/` directory, including:
+This project stores evaluation outputs in `results/`, including:
 
 - `results/performance_metrics`  
   JSON metrics for:
@@ -165,14 +131,41 @@ This project stores evaluation outputs in the `results/` directory, including:
   - xgboost tuned
   - threshold-based evaluations
 
-Optional/related outputs (if generated in your local version):
+Optional outputs (if generated):
 - grid search CV result tables (`*.csv`)
-- plots (ROC / PR curves)
-- feature importance summaries
+- plots in `reports/figures/`
+- coefficient summaries / feature analyses
 
-> Note: In my current setup, the metrics file is saved as `performance_metrics` (JSON content, no extension). You can rename it to `performance_metrics.json` if you prefer.
+> Note: `performance_metrics` currently stores JSON content without a `.json` extension.
 
 ---
+
+## Project Structure
+customer_churn_prediction/
+├── data/
+│   ├── .gitkeep
+│   └── Telco_customer_churn.xlsx
+├── reports/
+│   ├── pr_curve.png
+│   ├── roc_curve.png
+│   └── .gitkeep
+├── results/
+│   ├── .gitkeep
+│   ├── best_logisticreg_params
+│   ├── best_xgboost_params
+│   ├── performance_metrics
+│   └── variable_affect_churn.csv
+├── src/
+│   ├── __pycache__/
+│   ├── __init__.py
+│   ├── config.py
+│   ├── data_loading.py
+│   ├── logisticreg_hyperparmtuning.py
+│   ├── logisticreg_training_eval.py
+│   ├── xgboost_hyperparamtuning.py
+│   └── xgboost_training_eval.py
+├── .gitignore
+└── README.md
 
 ## How to Run
 
