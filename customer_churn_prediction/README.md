@@ -34,12 +34,13 @@ This project builds an end-to-end churn pipeline (**cleaning → encoding → tr
 <h2>Test Curves (Final Model)</h2>
 
 <p align="center">
-  <img src="reports/pr_curve.png" alt="Precision-Recall Curve (Test)" width="700"/>
-</p>
-
-<p align="center">
-  <img src="reports/roc_curve.png" alt="ROC Curve (Test)" width="700"/>
-</p>
+  <a href="reports/pr_curve.png">
+    <img src="reports/pr_curve.png" alt="Precision-Recall Curve" width="48%"/>
+  </a>
+  <a href="reports/roc_curve.png">
+    <img src="reports/roc_curve.png" alt="ROC Curve" width="48%"/>
+  </a>
+</p>>
 
 ## Practical Operating Points (XGBoost Tuned, Test Set)
 
