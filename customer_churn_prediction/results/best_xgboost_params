@@ -1,0 +1,15 @@
+{
+    "model": "xgboost",
+    "refit_metric": "ap",
+    "best_params": {
+        "colsample_bytree": 0.8,
+        "learning_rate": 0.03,
+        "max_depth": 3,
+        "min_child_weight": 1,
+        "reg_lambda": 3.0,
+        "scale_pos_weight": 1.0,
+        "subsample": 0.8
+    },
+    "best_index": 4,
+    "best_best_prauc_score": 0.6823460774515556
+}

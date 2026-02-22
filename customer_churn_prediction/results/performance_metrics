@@ -1,0 +1,194 @@
+{
+  "logistic_regression_baseline": {
+    "roc_auc": 0.8498488723552663,
+    "pr_auc": 0.6461347761178393,
+    "threshold_results": {
+      "thr_0.5": {
+        "threshold": 0.5,
+        "target_rate": 0.40667139815471964,
+        "precision": 0.5130890052356021,
+        "recall": 0.786096256684492,
+        "f1": 0.6209081309398099,
+        "confusion_matrix": [
+          [
+            756,
+            279
+          ],
+          [
+            80,
+            294
+          ]
+        ]
+      },
+      "top_10_percent": {
+        "threshold": 0.8474457242983651,
+        "target_rate": 0.10007097232079488,
+        "precision": 0.75177304964539,
+        "recall": 0.28342245989304815,
+        "f1": 0.4116504854368932,
+        "confusion_matrix": [
+          [
+            1000,
+            35
+          ],
+          [
+            268,
+            106
+          ]
+        ]
+      },
+      "best_f1_score_threshold": {
+        "threshold": 0.7047703222200211,
+        "target_rate": 0.26330731014904185,
+        "precision": 0.6199460916442049,
+        "recall": 0.6149732620320856,
+        "f1": 0.6174496644295302,
+        "confusion_matrix": [
+          [
+            894,
+            141
+          ],
+          [
+            144,
+            230
+          ]
+        ]
+      },
+      "business_ev_example": {
+        "threshold": 0.02,
+        "target_rate": 0.9105748757984387,
+        "precision": 0.2915042868277475,
+        "recall": 1.0,
+        "f1": 0.45141822570911283,
+        "confusion_matrix": [
+          [
+            126,
+            909
+          ],
+          [
+            0,
+            374
+          ]
+        ],
+        "assumptions": {
+          "contact_cost": 1.0,
+          "value_saved": 50.0
+        }
+      }
+    }
+  },
+  "logistic_regression_tuned": {
+    "roc_auc": 0.8494458653026429,
+    "pr_auc": 0.6453026986126837,
+    "threshold_results": {
+      "thr_0.5": {
+        "threshold": 0.5,
+        "target_rate": 0.23633782824698368,
+        "precision": 0.6426426426426426,
+        "recall": 0.5721925133689839,
+        "f1": 0.6053748231966054,
+        "confusion_matrix": [
+          [
+            916,
+            119
+          ],
+          [
+            160,
+            214
+          ]
+        ]
+      },
+      "top_10_percent": {
+        "threshold": 0.6727085328990379,
+        "target_rate": 0.10007097232079488,
+        "precision": 0.75177304964539,
+        "recall": 0.28342245989304815,
+        "f1": 0.4116504854368932,
+        "confusion_matrix": [
+          [
+            1000,
+            35
+          ],
+          [
+            268,
+            106
+          ]
+        ]
+      },
+      "best_f1_score_threshold": {
+        "threshold": 0.4606797106237089,
+        "target_rate": 0.26330731014904185,
+        "precision": 0.6199460916442049,
+        "recall": 0.6149732620320856,
+        "f1": 0.6174496644295302,
+        "confusion_matrix": [
+          [
+            894,
+            141
+          ],
+          [
+            144,
+            230
+          ]
+        ]
+      }
+    }
+  },
+  "xgboost_tuned": {
+    "roc_auc": 0.8562052752589837,
+    "pr_auc": 0.6743799164182128,
+    "threshold_results": {
+      "thr_0.5": {
+        "threshold": 0.5,
+        "target_rate": 0.2157558552164656,
+        "precision": 0.6710526315789473,
+        "recall": 0.5454545454545454,
+        "f1": 0.6017699115044248,
+        "confusion_matrix": [
+          [
+            935,
+            100
+          ],
+          [
+            170,
+            204
+          ]
+        ]
+      },
+      "top_10_percent": {
+        "threshold": 0.664821207523346,
+        "target_rate": 0.10007097232079488,
+        "precision": 0.7730496453900709,
+        "recall": 0.2914438502673797,
+        "f1": 0.42330097087378643,
+        "confusion_matrix": [
+          [
+            1003,
+            32
+          ],
+          [
+            265,
+            109
+          ]
+        ]
+      },
+      "best_f1_score_threshold": {
+        "threshold": 0.39102399349212646,
+        "target_rate": 0.3094393186657204,
+        "precision": 0.5894495412844036,
+        "recall": 0.6871657754010695,
+        "f1": 0.6345679012345679,
+        "confusion_matrix": [
+          [
+            856,
+            179
+          ],
+          [
+            117,
+            257
+          ]
+        ]
+      }
+    }
+  }
+}
