@@ -33,9 +33,9 @@ This project builds an end-to-end churn pipeline (**cleaning → encoding → tr
 
 ## Test Curves (Final Model)
 
-![Precision–Recall Curve (Test)](reports/figures/pr_curve.png)
+![Precision–Recall Curve (Test)](reports/pr_curve.png)
 
-![ROC Curve (Test)](reports/figures/roc_curve.png)
+![ROC Curve (Test)](reports/roc_curve.png)
 
 ---
 
