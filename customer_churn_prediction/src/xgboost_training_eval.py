@@ -1,8 +1,9 @@
 from data_loading import *
 from xgboost import XGBClassifier
 from config import *
-from sklearn.metrics import roc_auc_score, average_precision_score
+from sklearn.metrics import auc, roc_auc_score, average_precision_score, roc_curve, precision_recall_curve
 import json 
+import matplotlib.pyplot as plt
 
 file_path = BASE_DIR/"results"/"performance_metrics"
 
@@ -63,5 +64,35 @@ metrics["xgboost_tuned"]["threshold_results"]["best_f1_score_threshold"] = eval_
 
 with open(metrics_path, "w", encoding="utf-8") as f:
     json.dump(metrics, f, indent=2)
-
+reports_dir = BASE_DIR / "reports"
 print(f"Saved metrics to {metrics_path}")
+
+# ROC Curve
+fpr, tpr, _ = roc_curve(y_test, test_probs)
+
+plt.figure(figsize=(6, 5))
+plt.plot(fpr, tpr, label=f"ROC curve")
+plt.plot([0, 1], [0, 1], linestyle="--", label="Random baseline")
+plt.xlabel("False Positive Rate")
+plt.ylabel("True Positive Rate")
+plt.title("ROC Curve")
+plt.legend(loc="lower right")
+plt.tight_layout()
+plt.savefig(reports_dir / "roc_curve.png", dpi=300, bbox_inches="tight")
+plt.close()
+
+# Precision-Recall Curve
+precision, recall, _ = precision_recall_curve(y_test, test_probs)
+
+plt.figure(figsize=(6, 5))
+plt.plot(recall, precision, label=f"PR curve")
+plt.xlabel("Recall")
+plt.ylabel("Precision")
+plt.title("Precision-Recall Curve")
+plt.legend(loc="lower left")
+plt.tight_layout()
+plt.savefig(reports_dir / "pr_curve.png", dpi=300, bbox_inches="tight")
+plt.close()
+
+print(f"Saved ROC curve to: {reports_dir / 'roc_curve.png'}")
+print(f"Saved PR curve to: {reports_dir / 'pr_curve.png'}")
