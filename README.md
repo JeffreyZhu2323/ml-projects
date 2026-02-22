@@ -7,7 +7,8 @@ Curated ML mini-projects built in PyTorch, focused on clean training/evaluation 
 
 ## Projects
 - **[California Housing — Linear Regression (PyTorch)](./california_housing_linear_regression/)** — from-scratch training loop (explicit w,b, manual GD) + MSE/RMSE/R² + ridge sweep + plots
-
+- **[Customer Churn — Logistic Regression + XGBoost](./customer_churn_prediction/)**
+  
 ## Setup
 
 ### Create a virtual environment (optional but recommended)
