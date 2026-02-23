@@ -151,9 +151,9 @@ customer_churn_prediction/
 │   └── .gitkeep
 ├── results/
 │   ├── .gitkeep
-│   ├── best_logisticreg_params
-│   ├── best_xgboost_params
-│   ├── performance_metrics
+│   ├── best_logisticreg_params.json
+│   ├── best_xgboost_params.json
+│   ├── performance_metrics.json
 │   └── variable_affect_churn.csv
 ├── src/
 │   ├── __pycache__/
