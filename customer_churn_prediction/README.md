@@ -141,6 +141,8 @@ Optional outputs (if generated):
 ---
 
 ## Project Structure
+
+```text
 customer_churn_prediction/
 ├── data/
 │   ├── .gitkeep
