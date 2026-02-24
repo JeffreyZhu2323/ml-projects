@@ -80,6 +80,7 @@
   "logistic_regression_tuned": {
     "roc_auc": 0.8494458653026429,
     "pr_auc": 0.6453026986126837,
+    "brier_score": 0.13544794853627762,
     "threshold_results": {
       "thr_0.5": {
         "threshold": 0.5,
@@ -137,6 +138,7 @@
   "xgboost_tuned": {
     "roc_auc": 0.8562052752589837,
     "pr_auc": 0.6743799164182128,
+    "brier_score": 0.1321412221073749,
     "threshold_results": {
       "thr_0.5": {
         "threshold": 0.5,

@@ -2,7 +2,7 @@
 
 Predict customer churn and turn model scores into actionable retention targeting strategies.
 
-This project builds an end-to-end churn pipeline (**cleaning → encoding → train/val/test split → model training → evaluation**) and compares **Logistic Regression** vs **XGBoost** using **ROC-AUC** and **PR-AUC**, then evaluates practical threshold policies for retention outreach.
+This project builds an end-to-end churn pipeline (**cleaning → encoding → train/val/test split → model training → evaluation**) and compares **Logistic Regression** vs **XGBoost** using **ROC-AUC**, **PR-AUC**, and **Brier score** (probability calibration), then evaluates practical threshold policies for retention outreach.
 
 ---
 
@@ -26,6 +26,7 @@ This project builds an end-to-end churn pipeline (**cleaning → encoding → tr
 ### Improvement vs Logistic Baseline
 - **ROC-AUC:** +0.0064
 - **PR-AUC:** +0.0282
+- **Calibration:** lower **Brier score** and better calibration curve shape for XGBoost
 
 > PR-AUC is emphasized because churn is an imbalanced classification problem, so it is more informative than accuracy alone for identifying actual churners.
 
@@ -34,13 +35,19 @@ This project builds an end-to-end churn pipeline (**cleaning → encoding → tr
 <h2>Test Curves (Final Model)</h2>
 
 <p align="center">
-  <a href="reports/pr_curve.png">
-    <img src="reports/pr_curve.png" alt="Precision-Recall Curve" width="48%"/>
+  <a href="reports/xgboost_pr_curve.png">
+    <img src="reports/xgboost_pr_curve.png" alt="Precision-Recall Curve" width="48%"/>
   </a>
-  <a href="reports/roc_curve.png">
-    <img src="reports/roc_curve.png" alt="ROC Curve" width="48%"/>
+  <a href="reports/xgboost_roc_curve.png">
+    <img src="reports/xgboost_roc_curve.png" alt="ROC Curve" width="48%"/>
   </a>
-</p>>
+</p>
+
+<p align="center">
+  <a href="reports/xgboost_calibration_curve.png">
+    <img src="reports/xgboost_calibration_curve.png" alt="XGBoost Calibration Curve (Reliability Diagram)" width="48%"/>
+  </a>
+</p>
 
 ## Practical Operating Points (XGBoost Tuned, Test Set)
 
@@ -124,19 +131,18 @@ Key takeaway from the logistic benchmark:
 
 This project stores evaluation outputs in `results/`, including:
 
-- `results/performance_metrics`  
+- `results/performance_metrics.json`  
   JSON metrics for:
   - logistic regression baseline
   - logistic regression tuned
   - xgboost tuned
   - threshold-based evaluations
+  - probability calibration summary (including **Brier score**)
 
 Optional outputs (if generated):
 - grid search CV result tables (`*.csv`)
-- plots in `reports/figures/`
+- plots in `reports/`
 - coefficient summaries / feature analyses
-
-> Note: `performance_metrics` currently stores JSON content without a `.json` extension.
 
 ---
 
@@ -148,8 +154,9 @@ customer_churn_prediction/
 │   ├── .gitkeep
 │   └── Telco_customer_churn.xlsx
 ├── reports/
-│   ├── pr_curve.png
-│   ├── roc_curve.png
+│   ├── xgboost_pr_curve.png
+│   ├── xgboost_roc_curve.png
+│   ├── xgboost_calibration_curve.png
 │   └── .gitkeep
 ├── results/
 │   ├── .gitkeep
