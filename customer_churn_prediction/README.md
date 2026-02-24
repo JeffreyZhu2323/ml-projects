@@ -177,6 +177,7 @@ customer_churn_prediction/
 │   └── xgboost_training_eval.py
 ├── .gitignore
 └── README.md
+```
 
 ## How to Run
 
