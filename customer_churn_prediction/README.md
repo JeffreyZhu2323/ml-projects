@@ -6,7 +6,7 @@ This project builds an end-to-end churn pipeline (**cleaning → encoding → tr
 
 ---
 
-## TL;DR Results (Test Set)
+## Results
 
 ### Model Comparison
 
