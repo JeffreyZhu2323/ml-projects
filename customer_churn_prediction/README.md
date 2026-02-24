@@ -69,8 +69,8 @@ The final model outputs churn probabilities. Different outreach thresholds trade
 
 ### Business Interpretation
 - **Top 5–10% thresholds**: very high precision but low recall — useful when outreach capacity is tight and you only want to contact customers most likely to churn.
-- **Top 20–30% thresholds**: more balanced precision/recall — better when you can contact more customers and want to catch a larger share of churners.
-- **Best F1 threshold vs. 30% policy**: both are around 30% target rate; the chosen F1 threshold is tuned on validation data, while the simple 30% cutoff is easier to communicate operationally.
+- **Top 20–30% thresholds**: more balanced precision/recall — better when you can contact more customers and want to catch a larger portion of potential churners. 
+- **Best F1 threshold vs. 30% policy**: both are around 30% target rate; the F1-maximizing threshold is tuned on validation data, while the simple 30% cutoff is easier to communicate operationally.
 - **0.50 threshold**: a familiar reference point, but not necessarily optimal for business objectives.
 
 ---
