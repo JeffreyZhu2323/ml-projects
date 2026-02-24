@@ -51,13 +51,16 @@ This project builds an end-to-end churn pipeline (**cleaning → encoding → tr
 
 ## Practical Operating Points (XGBoost Tuned, Test Set)
 
-The final model outputs churn probabilities. Different thresholds support different retention team capacities and goals.
+The final model outputs churn probabilities. Different outreach thresholds trade off **coverage** (how many customers you contact) vs **precision/recall** (how many of them actually churn).
 
 | Policy | Threshold | Target Rate | Precision | Recall | F1 |
 |---|---:|---:|---:|---:|---:|
 | Default threshold | 0.5000 | 21.58% | 0.6711 | 0.5455 | 0.6018 |
+| Top 5% highest-risk customers | 0.7746 | 5.04% | **0.8028** | 0.1524 | 0.2562 |
 | Top 10% highest-risk customers | 0.6648 | 10.01% | **0.7730** | 0.2914 | 0.4233 |
-| Best F1 threshold (selected on validation set) | 0.3910 | 30.94% | 0.5894 | **0.6872** | **0.6346** |
+| Top 20% highest-risk customers | 0.5191 | 20.01% | 0.6773 | 0.5107 | 0.5823 |
+| Top 30% highest-risk customers | 0.4004 | 30.02% | 0.6005 | 0.6791 | **0.6374** |
+| Best F1 threshold (selected on validation set) | 0.3910 | 30.94% | 0.5894 | **0.6872** | 0.6346 |
 
 ### Confusion Matrices (XGBoost Tuned, Test Set)
 - **Threshold = 0.50** → `[[935, 100], [170, 204]]`
@@ -65,9 +68,10 @@ The final model outputs churn probabilities. Different thresholds support differ
 - **Best F1 threshold** → `[[856, 179], [117, 257]]`
 
 ### Business Interpretation
-- **Top 10% threshold** is useful when outreach capacity is limited (higher precision among contacted customers).
-- **Best F1 threshold** is better when the team can contact more customers and wants a more balanced precision/recall tradeoff.
-- **0.50 threshold** is a useful default benchmark, but not always the best operational policy.
+- **Top 5–10% thresholds**: very high precision but low recall — useful when outreach capacity is tight and you only want to contact customers most likely to churn.
+- **Top 20–30% thresholds**: more balanced precision/recall — better when you can contact more customers and want to catch a larger share of churners.
+- **Best F1 threshold vs. 30% policy**: both are around 30% target rate; the chosen F1 threshold is tuned on validation data, while the simple 30% cutoff is easier to communicate operationally.
+- **0.50 threshold**: a familiar reference point, but not necessarily optimal for business objectives.
 
 ---
 

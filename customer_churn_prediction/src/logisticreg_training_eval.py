@@ -24,7 +24,10 @@ test_probs = clf.predict_proba(X_test)[:,1]
 brier = brier_score_loss(y_test, test_probs)
 
 thr_05 = 0.5
+top_05_threshold = np.quantile(test_probs,0.95)
 top_10_threshold = np.quantile(test_probs,0.9)
+top_20_threshold = np.quantile(test_probs,0.8)
+top_30_threshold = np.quantile(test_probs,0.7)
 best_f1_threshold = get_best_f1_thr(y_val,val_probs) 
 
 metrics_path = BASE_DIR/"results/performance_metrics.json"
@@ -40,6 +43,9 @@ metrics.update({"logistic_regression_tuned": {
 }
 }) 
 metrics["logistic_regression_tuned"]["threshold_results"]["thr_0.5"] = eval_at_threshold(y_test,test_probs,thr_05)
+metrics["logistic_regression_tuned"]["threshold_results"]["top_05_percent"] = eval_at_threshold(y_test,test_probs,top_05_threshold)
+metrics["logistic_regression_tuned"]["threshold_results"]["top_20_percent"] = eval_at_threshold(y_test,test_probs,top_20_threshold)
+metrics["logistic_regression_tuned"]["threshold_results"]["top_30_percent"] = eval_at_threshold(y_test,test_probs,top_30_threshold)
 metrics["logistic_regression_tuned"]["threshold_results"]["top_10_percent"] = eval_at_threshold(y_test,test_probs,top_10_threshold)
 metrics["logistic_regression_tuned"]["threshold_results"]["best_f1_score_threshold"] = eval_at_threshold(y_test,test_probs,best_f1_threshold)
 
