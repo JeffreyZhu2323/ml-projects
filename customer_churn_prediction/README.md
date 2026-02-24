@@ -138,9 +138,7 @@ This project stores evaluation outputs in `results/`, including:
   - xgboost tuned
   - threshold-based evaluations
   - probability calibration summary (including **Brier score**)
-
-Optional outputs (if generated):
-- grid search CV result tables (`*.csv`)
+- grid search CV result jsons 
 - plots in `reports/`
 - coefficient summaries / feature analyses
 
