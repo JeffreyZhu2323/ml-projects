@@ -10,11 +10,11 @@ This project builds an end-to-end churn pipeline (**cleaning → encoding → tr
 
 ### Model Comparison
 
-| Model | ROC-AUC | PR-AUC | Brier score | Summary |
-|---|---:|---:|---:|---|
-| Logistic Regression (baseline) | **0.8498** | **0.6461** | – | Strong interpretable baseline |
-| Logistic Regression (tuned) | 0.8494 | 0.6453 | 0.1354 | Similar/slightly worse than baseline |
-| **XGBoost (tuned)** | **0.8562** | **0.6744** | **0.1321** | **Best overall performance** |
+| Model | ROC-AUC | PR-AUC | Brier score | Top 10% precision | Summary |
+|---|---:|---:|---:|---:|---|
+| Logistic Regression (baseline) | **0.8498** | **0.6461** | – | 0.752 | Strong interpretable baseline |
+| Logistic Regression (tuned) | 0.8494 | 0.6453 | 0.1354 | 0.752 | Similar/slightly worse than baseline |
+| **XGBoost (tuned)** | **0.8562** | **0.6744** | **0.1321** | **0.773** | **Best overall performance** |
 
 ### Final Model Selection
 **Selected model: XGBoost (tuned)**
