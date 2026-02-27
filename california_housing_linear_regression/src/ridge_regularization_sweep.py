@@ -2,18 +2,25 @@ from data_loading import load_data
 import torch
 from config import *
 import json
+from feature_engineering import make_features
 
 #load data
 X_train,y_train,_,_,X_val,y_val = load_data()
+X_train = make_features(X_train)
+X_val = make_features(X_val)
+mean = X_train.mean(dim=0, keepdim=True)
+std = X_train.std(dim=0, keepdim=True) + 1e-8  # avoid divide by zero
+X_train = (X_train - mean) / std
+X_val = (X_val - mean) / std
 
 #make results reproducible
 torch.manual_seed(TORCH_SEED)
 
 #instantiate parameters
-w = torch.randn(6, 1, requires_grad=True)
+w = torch.randn(X_train.shape[1], 1, requires_grad=True)
 b = torch.zeros(1, requires_grad=True)
 
-w_best = torch.empty(6,1)
+w_best = torch.empty(X_train.shape[1],1)
 b_best = torch.empty(1)
 best_loss = float("inf")
 global_w_best = None
@@ -29,9 +36,9 @@ def model(X,w,b):
 for L2 in lambdas:
     torch.manual_seed(TORCH_SEED)
     #instantiate parameters
-    w = torch.randn(6, 1, requires_grad=True)
+    w = torch.randn(X_train.shape[1], 1, requires_grad=True)
     b = torch.zeros(1, requires_grad=True)
-    w_best = torch.empty(6,1)
+    w_best = torch.empty(X_train.shape[1],1)
     b_best = torch.empty(1)
     best_loss = float("inf")
     for epoch in range(EPOCHS):

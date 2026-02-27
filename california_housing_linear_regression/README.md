@@ -1,73 +1,61 @@
 # California Housing Linear Regression (PyTorch)
 
-Linear regression baseline on the California Housing dataset implemented in **PyTorch**, focusing on clean, reproducible ML engineering practices (train/val/test split, train-only standardization, metric tracking, checkpointing, and ridge regularization sweep).
+Linear regression on the California Housing dataset in **PyTorch**: manual GD, train/val/test workflow, feature engineering, and ridge (L2) regularization.
 
 ## What this project demonstrates
-- **From-scratch linear regression training loop in PyTorch** (explicit w, b, forward pass, loss.backward(), manual GD updates)
-- **Train/Val/Test workflow** with reproducible splits (fixed split & pytorch training seeds)
-- Metrics: **MSE, RMSE, R²**
-- **Best validation checkpointing**
-- **Ridge (L2) regularization sweep** to select λ by validation performance
-- Simple plotting of learning curves
+- **From-scratch linear regression** in PyTorch (explicit `w`, `b`, `loss.backward()`, manual GD)
+- **Train/val/test** with reproducible splits and train-only standardization
+- **Feature engineering** guided by quantile plots: cutoff and hinge features; splines were tried and dropped (no validation gain)
+- **Ridge (L2) sweep** over λ after feature engineering; best λ chosen by validation MSE
+- Metrics: MSE, RMSE, R²; best-val checkpointing; learning-curve plots
 
-## Under the hood (PyTorch from scratch)
-This project intentionally avoids high-level training helpers to show fundamentals. I implemented:
-- **Explicit parameters**: `w` and `b` as tensors (no `nn.Linear`)
-- **Forward pass**: predictions computed as `y_hat = X @ w + b`
-- **Loss**: mean squared error (MSE)
-- **Backward pass**: gradients computed via `loss.backward()` and **manual gradient descent updates** in a `torch.no_grad()` block
-- **Training loop mechanics**: gradient zeroing, metric logging (MSE/RMSE/R²), and saving the **best validation checkpoint**
+## Feature engineering
+- **Base features (6):** MedInc, HouseAge, AveRooms, AveBedrms, Population, AveOccup
+- **Engineered (5):** HouseAge_high (floor 1.1), AveRooms_high (floor 0.5), Population_high (hinge 0.5), AveOcc_high (hinge 0.1). Cutoff/hinge choices were informed by **quantile plots** of each variable vs target; a **transformation grid** of candidates was evaluated on validation; **splines** were tested and removed.
 
 ## Quickstart
-From the repo root, you can run everything with two scripts (no need to go into `src/`):
+From this project's directory (`california_housing_linear_regression/`):
 
 ```bash
 pip install -r requirements.txt
-python src.train.py
-python src.eval.py
+python src/training.py
+python src/eval.py
 ```
+
+Optional: `python src/ridge_regularization_sweep.py` (sweeps λ), `python src/loss_visual.py` (writes plots to `reports/`).
 
 ## Dataset
 - **Source:** `sklearn.datasets.fetch_california_housing`
-- **Target:** `MedHouseVal`
-- **Features used (6):**
-  - `MedInc`, `HouseAge`, `AveRooms`, `AveBedrms`, `Population`, `AveOccup`
+- **Target:** MedHouseVal
 
 ## Project structure
-- `config.py`  
-  Hyperparameters + metric functions (`mse_loss`, `rmse_loss`, `r2`) + paths.
-- `data_loading.py`  
-  Loads dataset, selects features, creates train/val/test splits, standardizes using train stats.
-- `training.py`  
-  Trains linear regression with gradient descent, logs metrics, saves best-val checkpoint.
-- `ridge_regularization_sweep.py`  
-  Sweeps λ over a list of values and records best validation MSE for each λ (ridge).
-- `evaluation.py`  
-  Loads saved checkpoint and evaluates on the test set.
-- `loss_graph.py`  
-  Reads `loss_graph.csv` and plots curves.
+| Path | Role |
+|------|------|
+| `src/config.py` | Hyperparameters, metric helpers, paths, `quantile_plot` |
+| `src/data_loading.py` | Load data, splits, standardize with train stats |
+| `src/feature_engineering.py` | `make_features()` (11 features), quantile-plot EDA |
+| `src/training.py` | Train with GD, save best-val checkpoint (w, b, train mean/std) |
+| `src/eval.py` | Load checkpoint, evaluate on test set |
+| `src/ridge_regularization_sweep.py` | L2 λ sweep, writes `results/ridge_sweep_results.json` |
+| `src/loss_visual.py` | Plot train/val MSE, RMSE, R² → `reports/*.png` |
+| `results/` | `loss_graph.csv`, `ridge_sweep_results.json`, `test_set_results.json` |
+| `reports/` | Learning-curve PNGs (MSE, RMSE, R²) |
+| `checkpoints/` | Saved model (w, b, train_mean, train_std) |
 
-## Results 
-- Test MSE around **~0.63**
-- Test RMSE aroud **~0.79**
-- Test R² around **~0.52**
-- Ridge sweep found best near **λ = 0.01**
+## Results
+- **Test (after feature engineering + ridge sweep):** MSE ~0.54, RMSE ~0.74, R² ~0.59
+- **Before feature engineering (6 raw features):** MSE ~0.63, RMSE ~0.79, R² ~0.52. Feature engineering + ridge sweep improved test R² by ~0.07 (≈13% relative).
+- **Ridge sweep:** best validation MSE at **λ = 0.01**
 
-## Setup (optional but recommended): virtual environment
-If you prefer an isolated environment:
-
-**Windows (PowerShell)**
-
+## Setup (optional)
 ```powershell
+# Windows
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
-python -m pip install -r requirements.txt
+pip install -r requirements.txt
 ```
-
-**macOS/Linux**
-
 ```bash
-python3 -m venv .venv
-source .venv/bin/activate
-python -m pip install -r requirements.txt
+# macOS/Linux
+python3 -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
 ```

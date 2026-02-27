@@ -2,12 +2,14 @@ import torch
 from config import *
 from data_loading import *
 import json
-
+from feature_engineering import make_features
 
 results = {}
-_, _, X_test, y_test,_,_ = load_data()
+X_train, y_train, X_test, y_test, _, _ = load_data()
+X_test = make_features(X_test)
 checkpoint = torch.load(SAVE_PATH)
-w,b = checkpoint["w"], checkpoint["b"]
+w, b, mean, std = checkpoint["w"], checkpoint["b"], checkpoint["train_mean"], checkpoint["train_std"]
+X_test = (X_test - mean) / std
 with torch.no_grad():
     preds = X_test @ w + b
     mse = mse_loss(preds, y_test).item()

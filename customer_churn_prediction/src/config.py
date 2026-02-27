@@ -27,4 +27,3 @@ def get_best_f1_thr(y_true, proba):
     best_index = np.argmax(f1)
 
     return thresholds[best_index]
-    
