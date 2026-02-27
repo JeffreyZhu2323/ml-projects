@@ -28,7 +28,7 @@ Optional: `python ridge_regularization_sweep.py` (sweeps λ), `python loss_visua
 ## Results
 - **Test (after feature engineering + ridge sweep):** MSE ~0.54, RMSE ~0.74, R² ~0.59
 - **Before feature engineering (6 raw features):** MSE ~0.63, RMSE ~0.79, R² ~0.52. Feature engineering + ridge sweep improved test R² by ~0.07 (≈13% relative).
-- **Ridge sweep:** best validation MSE at **λ = 0.01**
+- **Ridge sweep:** best validation MSE at **λ = 0.00001**
 
 ## Dataset
 - **Source:** `sklearn.datasets.fetch_california_housing`
