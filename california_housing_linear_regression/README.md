@@ -14,15 +14,16 @@ Linear regression on the California Housing dataset in **PyTorch**: manual GD, t
 - **Engineered (5):** HouseAge_high (floor 1.1), AveRooms_high (floor 0.5), Population_high (hinge 0.5), AveOcc_high (hinge 0.1). Cutoff/hinge choices were informed by **quantile plots** of each variable vs target; a **transformation grid** of candidates was evaluated on validation; **splines** were tested and removed.
 
 ## Quickstart
-From this project's directory (`california_housing_linear_regression/`):
+From this project's directory (`california_housing_linear_regression/`), install deps then run from `src/`:
 
 ```bash
 pip install -r requirements.txt
-python src/training.py
-python src/eval.py
+cd src
+python training.py
+python eval.py
 ```
 
-Optional: `python src/ridge_regularization_sweep.py` (sweeps λ), `python src/loss_visual.py` (writes plots to `reports/`).
+Optional: `python ridge_regularization_sweep.py` (sweeps λ), `python loss_visual.py` (writes plots to `reports/`).
 
 ## Dataset
 - **Source:** `sklearn.datasets.fetch_california_housing`

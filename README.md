@@ -2,11 +2,11 @@
 
 [![CI](https://github.com/JeffreyZhu2323/ml-projects/actions/workflows/ci.yml/badge.svg)](https://github.com/JeffreyZhu2323/ml-projects/actions/workflows/ci.yml)
 
-Curated ML mini-projects built in PyTorch, focused on clean training/evaluation pipelines and reproducible structure. Each project lives in `projects/` with its own README, code in `src/`, and outputs saved to `results/` and `reports/`.
+Curated ML mini-projects built in PyTorch, focused on clean training/evaluation pipelines and reproducible structure. Each project has its own directory with its own README; code lives in `src/` (run scripts from inside `src/`), and outputs go to `results/` and `reports/`.
 **Python:** 3.10.0
 
 ## Projects
-- **[California Housing — Linear Regression (PyTorch)](./california_housing_linear_regression/)** — from-scratch training loop (explicit w,b, manual GD) + MSE/RMSE/R² + ridge sweep + plots
+- **[California Housing — Linear Regression (PyTorch)](./california_housing_linear_regression/)** — from-scratch training loop (w, b, manual GD) + feature engineering (quantile-plot EDA, cutoffs/hinges) + ridge sweep; test R² 0.59 (≈13% gain over raw features)
 - **[Customer Churn — Logistic Regression + XGBoost](./customer_churn_prediction/)** - End-to-end churn modeling (LogReg vs XGBoost) with CV tuning, ROC/PR-AUC evaluation, and threshold-based retention targeting policies
   
 ## Setup
