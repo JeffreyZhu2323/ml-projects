@@ -25,6 +25,11 @@ python eval.py
 
 Optional: `python ridge_regularization_sweep.py` (sweeps λ), `python loss_visual.py` (writes plots to `reports/`).
 
+## Results
+- **Test (after feature engineering + ridge sweep):** MSE ~0.54, RMSE ~0.74, R² ~0.59
+- **Before feature engineering (6 raw features):** MSE ~0.63, RMSE ~0.79, R² ~0.52. Feature engineering + ridge sweep improved test R² by ~0.07 (≈13% relative).
+- **Ridge sweep:** best validation MSE at **λ = 0.01**
+
 ## Dataset
 - **Source:** `sklearn.datasets.fetch_california_housing`
 - **Target:** MedHouseVal
@@ -42,11 +47,6 @@ Optional: `python ridge_regularization_sweep.py` (sweeps λ), `python loss_visua
 | `results/` | `loss_graph.csv`, `ridge_sweep_results.json`, `test_set_results.json` |
 | `reports/` | Learning-curve PNGs (MSE, RMSE, R²) |
 | `checkpoints/` | Saved model (w, b, train_mean, train_std) |
-
-## Results
-- **Test (after feature engineering + ridge sweep):** MSE ~0.54, RMSE ~0.74, R² ~0.59
-- **Before feature engineering (6 raw features):** MSE ~0.63, RMSE ~0.79, R² ~0.52. Feature engineering + ridge sweep improved test R² by ~0.07 (≈13% relative).
-- **Ridge sweep:** best validation MSE at **λ = 0.01**
 
 ## Setup (optional)
 ```powershell
