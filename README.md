@@ -7,7 +7,7 @@ Curated ML mini-projects built in PyTorch, focused on clean training/evaluation 
 
 ## Projects
 - **[California Housing — Linear Regression (PyTorch)](./california_housing_linear_regression/)** — from-scratch training loop (w, b, manual GD) + feature engineering (quantile-plot EDA, cutoffs/hinges) + ridge sweep; test R² 0.59 (≈13% gain over raw features)
-- **[Customer Churn — Logistic Regression + XGBoost](./customer_churn_prediction/)** — Telco churn (LogReg vs XGBoost, CV tuning), PR-AUC/calibration, retention-threshold policies; XGBoost PR-AUC 0.67
+- **[Customer Churn — Logistic Regression + XGBoost](./customer_churn_prediction/)** — Telco churn (LogReg vs XGBoost, CV tuning), PR-AUC/calibration, retention-threshold policies; XGBoost PR-AUC 0.67 ROC-AUC 0.85
   
 ## Setup
 
