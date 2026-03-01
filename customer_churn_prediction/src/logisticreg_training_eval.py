@@ -1,4 +1,6 @@
-from data_loading import *
+from config import *
+from data_loading import load_data
+import pandas as pd
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import roc_auc_score, average_precision_score, brier_score_loss
 from sklearn.calibration import calibration_curve
@@ -57,10 +59,11 @@ coefficients = pd.Series(clf.coef_[0], index=X_train.columns).sort_values()
 top_increasing = coefficients.sort_values(ascending=False)                        
 
 top_increasing.to_csv(BASE_DIR/"results/variable_affect_churn.csv", header=["coefficients"])
-print("Saved results/variable_affect_curn.csv")
+print("Saved results/variable_affect_churn.csv")
 
 # Calibration curve (reliability diagram)
-reports_dir = BASE_DIR / "reports"
+figures_dir = BASE_DIR / "reports" / "figures"
+figures_dir.mkdir(parents=True, exist_ok=True)
 prob_true, prob_pred = calibration_curve(y_test, test_probs, n_bins=10, strategy="quantile")
 
 plt.figure(figsize=(6, 5))
@@ -71,7 +74,7 @@ plt.ylabel("Observed fraction of positives")
 plt.title("Calibration Curve (Reliability Diagram) - Logistic Regression")
 plt.legend(loc="upper left")
 plt.tight_layout()
-plt.savefig(reports_dir / "logistic_calibration_curve.png", dpi=300, bbox_inches="tight")
+plt.savefig(figures_dir / "logistic_calibration_curve.png", dpi=300, bbox_inches="tight")
 plt.close()
 
-print(f"Saved calibration curve to: {reports_dir / 'logistic_calibration_curve.png'}")
+print(f"Saved calibration curve to: {figures_dir / 'logistic_calibration_curve.png'}")

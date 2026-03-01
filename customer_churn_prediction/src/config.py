@@ -5,6 +5,9 @@ from sklearn.metrics import precision_recall_curve
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Data source: "bigquery" (main_data_loading) or "pandas" (backup_data_loading)
+DATA_SOURCE = "bigquery"
+
 TEST_SPLIT_SIZE = 0.2
 TRAIN_SEED = 42
 SPLIT_SEED = 42

@@ -1,4 +1,4 @@
-from data_loading import *
+from main_data_loading import *
 from xgboost import XGBClassifier
 from config import *
 from sklearn.metrics import (
@@ -78,9 +78,10 @@ metrics["xgboost_tuned"]["threshold_results"]["top_20_percent"] = eval_at_thresh
 metrics["xgboost_tuned"]["threshold_results"]["top_30_percent"] = eval_at_threshold(y_test,test_probs,top_30_threshold)
 metrics["xgboost_tuned"]["threshold_results"]["best_f1_score_threshold"] = eval_at_threshold(y_test,test_probs,best_f1_threshold)
 
+
 with open(metrics_path, "w", encoding="utf-8") as f:
     json.dump(metrics, f, indent=2)
-reports_dir = BASE_DIR / "reports"
+reports_dir = BASE_DIR / "reports" / "figures"
 print(f"Saved metrics to {metrics_path}")
 
 # ROC Curve

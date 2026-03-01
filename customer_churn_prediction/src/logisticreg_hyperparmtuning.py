@@ -1,7 +1,9 @@
-from data_loading import *
+from config import BASE_DIR
+from data_loading import load_data
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import GridSearchCV, StratifiedKFold
 import json
+import pandas as pd
 
 X_train, y_train, X_val,y_val,_,_ = load_data()
 
@@ -82,6 +84,6 @@ summarylr= {
     "best_prauc_score": float(gridlr.best_score_),
 }
 
-file_pathlr = BASE_DIR / "results" / "best_logisticreg_params"
+file_pathlr = BASE_DIR / "results" / "best_logisticreg_params.json"
 with open(file_pathlr, 'w') as json_file:
     json.dump(summarylr, json_file, indent=4)

@@ -1,8 +1,9 @@
-from data_loading import *
+from config import BASE_DIR
+from data_loading import load_data
 from sklearn.model_selection import GridSearchCV, StratifiedKFold
 import xgboost as xgb
 import json
-
+import pandas as pd
 X_train, y_train, X_val,y_val,_,_ = load_data()
 
 pos = y_train[y_train == 1].shape[0]
@@ -73,6 +74,6 @@ summaryxg = {
     "best_prauc_score": float(gridxg.best_score_),
 }
 
-file_pathlr = BASE_DIR / "results" / "best_xgboost_params"
+file_pathlr = BASE_DIR / "results" / "best_xgboost_params.json"
 with open(file_pathlr, 'w') as json_file:
     json.dump(summaryxg, json_file, indent=4)
