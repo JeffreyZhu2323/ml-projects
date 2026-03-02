@@ -28,3 +28,13 @@ python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install -r requirements.txt
 ```
+
+## Shared utilities
+
+- **`scripts/run_sql.py`**: universal SQL runner for any project with a `sql/` folder. From a project directory:
+
+  ```bash
+  cd customer_churn_prediction
+  python ../scripts/run_sql.py 01_label_distribution   # writes reports/sql_reports/01_label_distribution.csv
+  ```
+

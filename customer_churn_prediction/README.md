@@ -104,6 +104,20 @@ Artifacts → `results/` and `reports/figures/`.
 
 ---
 
+### SQL analysis queries
+
+Lightweight exploratory queries live in `sql/`. Use the shared runner in the repo root:
+
+```bash
+cd customer_churn_prediction
+python ../scripts/run_sql.py 01_label_distribution
+python ../scripts/run_sql.py 02_churn_by_segment
+```
+
+Outputs are saved to `reports/sql_reports/`.
+
+---
+
 ## Tech Stack
 
 Python · scikit-learn · XGBoost · pandas · **Google Cloud BigQuery (SQL)** · stratified train/val/test · grid-search tuning · ROC-AUC / PR-AUC / Brier (calibration) · precision–recall analysis
