@@ -34,7 +34,7 @@ python -m pip install -r requirements.txt
 - **`scripts/run_sql.py`**: universal SQL runner for any project with a `sql/` folder. From a project directory:
 
   ```bash
-  cd customer_churn_prediction
-  python ../scripts/run_sql.py 01_label_distribution   # writes reports/sql_reports/01_label_distribution.csv
+  cd {Project Folder Name}
+  python ../scripts/run_sql.py {SQL File Name}   # writes reports/sql_reports/{SQL File Name}.csv
   ```
 
